@@ -1,0 +1,26 @@
+{
+  "name": "@yesiree/basin",
+  "version": "0.3.2",
+  "description": "An asynchronous, event-emitting, file watching, process channeling, static-site generating, build tool.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd examples/simple && node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yesiree/channels.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yesiree/channels/issues"
+  },
+  "homepage": "https://github.com/yesiree/channels#readme",
+  "dependencies": {
+    "chokidar": "^3.4.0",
+    "del": "^5.1.0",
+    "mkdirp": "^1.0.4",
+    "picomatch": "^2.2.2",
+    "rimraf": "^3.0.2"
+  }
+}

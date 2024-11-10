@@ -1,0 +1,12 @@
+{
+  "name": "pid",
+  "version": "0.0.1",
+  "description": "A utility for generating an ID with the same uniqueness guarantees as a UUID, but with a more compact representation.",
+  "author": "Trevor Reed",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {},
+  "peerDependencies": {
+    "uuid": "^11.0.3"
+  }
+}

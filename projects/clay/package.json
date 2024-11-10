@@ -1,0 +1,29 @@
+{
+  "name": "@yesiree/clay",
+  "version": "0.1.0",
+  "description": "A simple mock backend for building prototypes",
+  "author": "Trevor Reed",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "clay": "./cli.js"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "dependencies": {
+    "@yesiree/cio": "^0.1.0",
+    "bcryptjs": "^2.4.3",
+    "bignumber.js": "^7.2.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "getopts": "^2.2.1",
+    "jsonwebtoken": "^8.3.0",
+    "mkdirp": "^1.0.3",
+    "rimraf": "^2.6.2",
+    "uuid": "^3.3.2"
+  },
+  "config": {
+    "@yesiree/clay": {}
+  }
+}
