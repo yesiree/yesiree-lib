@@ -26,6 +26,8 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+        working-directory: projects/outside
       - run: npm publish --access publish
+        working-directory: projects/outside
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_gha_token}}
