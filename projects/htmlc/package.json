@@ -2,12 +2,9 @@
   "name": "@yesiree/htmlc",
   "version": "0.0.12",
   "description": "A simple tool for compiling HTML files",
+  "author": "Trevor Reed",
+  "license": "MIT",
   "type": "module",
-  "files": [
-    "./lib/cli.js",
-    "./lib/index.js",
-    "./lib/utils.js"
-  ],
   "main": "./lib/index.js",
   "bin": "./lib/cli.js",
   "scripts": {
@@ -16,29 +13,8 @@
     "compare": "node test/equals.js .ignore/index.html test/expected.html",
     "publish": "npm publish --access public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yesiree/htmlc.git"
-  },
-  "keywords": [
-    "html",
-    "compile",
-    "minify",
-    "css",
-    "sass",
-    "scss",
-    "style",
-    "script",
-    "javascript",
-    "js"
-  ],
-  "author": "Trevor Reed",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yesiree/htmlc/issues"
-  },
-  "homepage": "https://github.com/yesiree/htmlc#readme",
   "dependencies": {
+    "@yesiree/outside": "^0.0.9",
     "chalk": "^5.3.0",
     "chokidar": "^4.0.1",
     "diff": "^7.0.0",

@@ -2,12 +2,12 @@ import {
   Basin,
   getCacheBustingPath,
   replaceWithCacheBustingPath,
-} from '../../index.js'
+} from '../../lib/index.js'
 
 const cfg = {
-  watch: true,
+  watch: false,
   root: 'src',
-  emitFile: true,
+  emitFileData: true,
   sources: {
     assets: [
       '**/*.js',
@@ -69,7 +69,7 @@ function updatePaths() {
 
 async function writeFiles() {
   if (!this.ready) return
-  await this.rimraf('./dist/**/*')
+  await this.clean('./dist/**/*')
   const promises = this
     .get('static')
     .sort((a, b) => {
@@ -79,5 +79,5 @@ async function writeFiles() {
     })
     .map(file => this.write(file.dest, file.content, './dist'))
   await Promise.all(promises)
-  console.log('Updated.')
+  console.log(`Updated (${promises.length}).`)
 }

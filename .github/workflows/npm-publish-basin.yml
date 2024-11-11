@@ -1,0 +1,39 @@
+name: 'publish @yesiree/basin'
+run-name: publish @yesiree/basin — ${{ github.event.pull_request.title || github.event.head_commit.message }} (${{ github.actor }})
+
+on:
+  pull_request:
+    branches: ['release']
+    paths: ['projects/basin/**']
+  push:
+    branches: ['release']
+    paths: ['projects/basin/**']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - working-directory: projects/basin
+        run: npm ci
+      - working-directory: projects/basin
+        run: npm test
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - working-directory: projects/basin
+        run: npm ci
+      - working-directory: projects/basin
+        run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_GHA_TOKEN }}

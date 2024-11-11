@@ -1,12 +1,12 @@
 import fs from 'fs'
 import { join, relative, dirname } from 'path'
 import chokidar from 'chokidar'
-import rimraf from 'rimraf'
-import mkdirp from 'mkdirp'
+// import rimraf from 'rimraf'
+import { mkdirp } from 'mkdirp'
 import pico from 'picomatch'
-import del from 'del'
+import { deleteAsync } from 'del'
 
-export * from './utils/assets.js'
+export * from './assets.js'
 
 /**
  * Creates an instance of Basin
@@ -68,7 +68,6 @@ export function Basin({
   this._ready = false
   this._cache = {}
   this._events = {}
-  this._rootGlob = join(this.opts.root, '**/*')
   this._sources = []
   const { resolve, promise } = Deferred()
   this._resolveReady = resolve
@@ -91,7 +90,7 @@ export function Basin({
 }
 
 Basin.prototype.run = function Basin__Instance__run() {
-  const watcher = chokidar.watch(this._rootGlob, { ignored: this.opts.ignore })
+  const watcher = chokidar.watch(this.opts.root, { ignored: this.opts.ignore })
   let closed = false
   watcher
     .on('ready', listener.bind(this, 'RDY'))
@@ -245,17 +244,8 @@ Basin.write = Basin.prototype.write = function Basin__write(path, data, root) {
   })
 }
 
-Basin.rimraf = Basin.prototype.rimraf = function Basin__rimraf(glob) {
-  return new Promise((resolve, reject) => {
-    rimraf(glob, err => {
-      if (err) return reject(err)
-      resolve()
-    })
-  })
-}
-
 Basin.clean = Basin.prototype.clean = async function Basin__clean(globs, opts) {
-  return await del(globs, opts)
+  return await deleteAsync(globs, opts)
 }
 
 Basin.Default = Symbol('Basin__Default')

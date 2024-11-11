@@ -7,8 +7,6 @@
   "scripts": {
     "test": "node ."
   },
-  "author": "yesiree foundation",
-  "license": "MIT",
   "dependencies": {
     "basin": "file:../.."
   }

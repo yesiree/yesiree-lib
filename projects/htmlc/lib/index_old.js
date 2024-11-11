@@ -1,4 +1,4 @@
-import { dirname, resolve, join, relative, extname } from 'path'
+import { join, relative, extname } from 'path'
 import * as terser from 'terser'
 import jsdom from 'jsdom'
 import * as sass from 'sass'
@@ -8,7 +8,7 @@ import chokidar from 'chokidar'
 import chalk from 'chalk'
 import fastGlob from 'fast-glob'
 import mime from 'mime-types'
-import { createLogger } from './logging.js'
+import { logInfo } from '@yesiree/outside'
 import { createImageSizer } from './images.js'
 import {
   read,
