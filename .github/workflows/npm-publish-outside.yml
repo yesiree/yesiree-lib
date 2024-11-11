@@ -38,6 +38,6 @@ jobs:
       - working-directory: projects/outside
         run: npm ci
       - working-directory: projects/outside
-        run: npm publish --access publish
+        run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_GHA_TOKEN }}
