@@ -1,9 +1,17 @@
 name: 'publish @yesiree/outside'
+run-name: publish @yesiree/outside — ${{ github.event.pull_request.title || github.event.head_commit.message }} (${{ github.actor }})
 
 on:
+  pull_request:
+    branches: ['release']
+    paths:
+      - projects/outside/**
+      - .github/workflows/npm-publish-outside.yml
   push:
     branches: ['release']
-    paths: ['projects/outside/**']
+    paths:
+      - projects/outside/**
+      - .github/workflows/npm-publish-outside.yml
 
 jobs:
   build:
