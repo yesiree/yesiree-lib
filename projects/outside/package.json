@@ -1,11 +1,11 @@
 {
   "name": "@yesiree/outside",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A tiny tool for CLI output.",
   "author": "Trevor Reed",
   "license": "MIT",
   "type": "module",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"no tests yet\""
   },

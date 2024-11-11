@@ -4,14 +4,10 @@ run-name: publish @yesiree/outside — ${{ github.event.pull_request.title || gi
 on:
   pull_request:
     branches: ['release']
-    paths:
-      - projects/outside/**
-      - .github/workflows/npm-publish-outside.yml
+    paths: ['projects/outside/**']
   push:
     branches: ['release']
-    paths:
-      - projects/outside/**
-      - .github/workflows/npm-publish-outside.yml
+    paths: ['projects/outside/**']
 
 jobs:
   build:
@@ -26,7 +22,7 @@ jobs:
       - working-directory: projects/outside
         run: npm test
 
-  publish-npm:
+  publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
