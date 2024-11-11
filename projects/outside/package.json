@@ -7,8 +7,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"no tests yet\"",
-    "publish": "npm publish --access public"
+    "test": "echo \"no tests yet\""
   },
   "peerDependencies": {
     "chalk": "^5.3.0"
