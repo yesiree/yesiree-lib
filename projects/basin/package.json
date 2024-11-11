@@ -1,6 +1,6 @@
 {
   "name": "@yesiree/basin",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "An asynchronous, event-emitting, file watching, process channeling, static-site generating, build tool.",
   "author": "Trevor Reed",
   "license": "MIT",
@@ -13,7 +13,6 @@
     "chokidar": "^4.0.1",
     "del": "^8.0.0",
     "mkdirp": "^3.0.1",
-    "picomatch": "^4.0.2",
-    "rimraf": "^6.0.1"
+    "picomatch": "^4.0.2"
   }
 }
