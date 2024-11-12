@@ -11,7 +11,7 @@ interface SpinnerRunner extends SpinnerTask {
   currentFrame: string
 }
 
-interface SpinnerSetMap {
+interface SpinnerFrameMap {
   [key: string]: string[]
 }
 
@@ -23,7 +23,7 @@ interface SpinnerBeamGeneratorOptions extends SpinnerGeneratorOptions {
   beamCharacter?: string;
 }
 
-interface SpinnerGeneratorMap {
+interface SpinnerFrameGeneratorMap {
   [key: string]: (options?: SpinnerGeneratorOptions) => string[];
 }
 
@@ -42,7 +42,11 @@ interface SpinnerConfig {
 
 interface SpinnerOptions extends SpinnerConfig { }
 
-export const SpinnerGenerators: SpinnerGeneratorMap = {
+/**
+ * A map of spinner generators. Each generator creates an array of frames for a spinner animation.
+ * The generator is a function that will return a spinner set that can be passed to `configureSpinner` or `printSpinners`.
+ */
+export const SpinnerFrameGenerators: SpinnerFrameGeneratorMap = {
   BEAM({
     spaceWidth = 20,
     spaceCharacter = ' ',
@@ -71,7 +75,11 @@ export const SpinnerGenerators: SpinnerGeneratorMap = {
   }
 }
 
-export const SpinnerSets: SpinnerSetMap = {
+/**
+ * A map of spinner sets. Each set contains an array of frames for a spinner animation.
+ * The set is an array that can be passed to `configureSpinner` or `printSpinners`.
+ */
+export const SpinnerFrames: SpinnerFrameMap = {
   SOUND: ['🔊', '🔉', '🔈'],
   CLOCK: ['🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕛'],
   HOURGLASS: ['⏳', '⌛'],
@@ -94,7 +102,7 @@ const config: SpinnerConfig = {
   intervalDelay: 100,
   spinnerAlignment: 'left',
   labelColor: gray,
-  spinnerFrames: SpinnerSets.ROTATE,
+  spinnerFrames: SpinnerFrames.ROTATE,
   spinnerColor: (msg) => brightYellow(bold(msg)),
   successFrame: '✔',
   successColor: (msg) => brightGreen(bold(msg)),
@@ -102,8 +110,22 @@ const config: SpinnerConfig = {
   errorColor: (msg) => brightRed(bold(msg)),
 }
 
-export const configureSpinner = (options: Partial<SpinnerConfig>): void => {
-  Object.assign(config, options)
+/**
+ * Configure the spinner with the given options.
+ * @param opts The options to configure the spinner.
+ * @param opts.intervalDelay The delay in milliseconds between each spinner frame.
+ * @param opts.spinnerAlignment The alignment of the spinner relative to the label.
+ * @param opts.labelColor The color function for the label.
+ * @param opts.spinnerFrames The frames for the spinner animation (see `SpinnerGeneratorMap` or `SpinnerSetMap`).
+ * @param opts.spinnerColor The color function for the spinner frames.
+ * @param opts.successFrame The frame for the success animation (e.g. '✔').
+ * @param opts.successColor The color function for the success frame.
+ * @param opts.errorFrame The frame for the error animation (e.g. '✘').
+ * @param opts.errorColor The color function for the error frame.
+ * @return void
+ */
+export const configureSpinner = (opts: Partial<SpinnerConfig>): void => {
+  Object.assign(config, opts)
 }
 
 const printTaskSpinner = (runner: SpinnerRunner, opts?: Partial<SpinnerOptions>): void => {
@@ -127,6 +149,23 @@ const reprintTaskSpinner = (runner: SpinnerRunner, taskLine: number, opts?: Part
   cm.moveDownLines(taskLine)
 }
 
+/**
+ * Print a set of spinners for each task in the list.
+ * @param tasks The list of tasks to print spinners for.
+ * @param tasks[i].label The label for the task.
+ * @param tasks[i].promise The promise for the task. Once the promise is fulfilled, the spinner will stop.
+ * @param opts The options to configure the spinner.
+ * @param opts.intervalDelay The delay in milliseconds between each spinner frame.
+ * @param opts.spinnerAlignment The alignment of the spinner relative to the label.
+ * @param opts.labelColor The color function for the label.
+ * @param opts.spinnerFrames The frames for the spinner animation (see `SpinnerGeneratorMap` or `SpinnerSetMap`).
+ * @param opts.spinnerColor The color function for the spinner frames.
+ * @param opts.successFrame The frame for the success animation (e.g. '✔').
+ * @param opts.successColor The color function for the success frame.
+ * @param opts.errorFrame The frame for the error animation (e.g. '✘').
+ * @param opts.errorColor The color function for the error frame.
+ * @return void
+ */
 export const printSpinners = (tasks: SpinnerTask[], opts?: Partial<SpinnerOptions>): void => {
   const intervalDelay = opts?.intervalDelay ?? config.intervalDelay
   const spinnerAlignment = opts?.spinnerAlignment ?? config.spinnerAlignment

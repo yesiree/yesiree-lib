@@ -44,8 +44,23 @@ const config: ProgressConfig = {
   progressColor: brightBlue
 }
 
-export const configureProgress = (options: Partial<ProgressConfig>): void => {
-  Object.assign(config, options)
+/**
+ * Configure the progress bar with the given options.
+ * @param opts Partial options to configure the progress bar.
+ * @param opts.prefix The prefix to display before the progress bar.
+ * @param opts.width The width of the progress bar.
+ * @param opts.openChar The character to display at the start of the progress bar.
+ * @param opts.openColor The color function to apply to the open character.
+ * @param opts.closeChar The character to display at the end of the progress bar.
+ * @param opts.closeColor The color function to apply to the close character.
+ * @param opts.emptyChar The character to display for empty progress.
+ * @param opts.emptyColor The color function to apply to the empty character.
+ * @param opts.progressChar The character to display for progress.
+ * @param opts.progressColor The color function to apply to the progress character.
+ * @return void
+ */
+export const configureProgress = (opts: Partial<ProgressConfig>): void => {
+  Object.assign(config, opts)
 }
 
 const getOptions = (opts?: Partial<ProgressOptions>): ProgressOptions => {
@@ -76,6 +91,22 @@ const printTaskProgress = (task: ProgressTask, opts?: Partial<ProgressOptions>):
   cm.write(progressText)
 }
 
+/**
+ * Print the progress of the given tasks.
+ * @param tasks The tasks to print progress for.
+ * @param opts Partial options to configure the progress bar.
+ * @param opts.prefix The prefix to display before the progress bar.
+ * @param opts.width The width of the progress bar.
+ * @param opts.openChar The character to display at the start of the progress bar.
+ * @param opts.openColor The color function to apply to the open character.
+ * @param opts.closeChar The character to display at the end of the progress bar.
+ * @param opts.closeColor The color function to apply to the close character.
+ * @param opts.emptyChar The character to display for empty progress.
+ * @param opts.emptyColor The color function to apply to the empty character.
+ * @param opts.progressChar The character to display for progress.
+ * @param opts.progressColor The color function to apply to the progress character.
+ * @return TaskRunner[] The task runners that can update the progress of the tasks.
+ */
 export const printProgress = (tasks: ProgressTask[], opts?: Partial<ProgressOptions>): TaskRunner[] => {
   const writer = opts?.writer ?? config?.writer
   const cm = new ConsoleWriter(writer)

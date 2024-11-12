@@ -36,11 +36,19 @@ const config: LoggingConfig = {
   timestamp: true,
 }
 
+/**
+ * Configure the logging system.
+ * @param newConfig - The new configuration.
+ * @param newConfig.quiet - Whether to suppress log messages.
+ * @param newConfig.namespace - The namespace to use for log messages.
+ * @param newConfig.timestamp - Whether to include timestamps in log messages.
+ * @returns void
+ */
 export const configureLogging = (newConfig: Partial<LoggingConfig>): void => {
   Object.assign(config, newConfig)
 }
 
-export const LABELS: LabelMap = {
+const LABELS: LabelMap = {
   debug: { text: 'DBG', color: boldBrightBlue },
   info: { text: 'INF', color: boldBrightWhite },
   warn: { text: 'WRN', color: boldBrightOrange },
@@ -52,6 +60,15 @@ export const LABELS: LabelMap = {
   ready: { text: 'RDY', color: boldBrightBlue },
 }
 
+/**
+ * Log a message.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logMessage = (message: string, opts: Partial<LoggingOptions> = {}): void => {
   const quiet: boolean = opts.quiet ?? config.quiet ?? false
   if (quiet) return
@@ -67,12 +84,100 @@ export const logMessage = (message: string, opts: Partial<LoggingOptions> = {}):
   cm.write(`${ts}${ns}${lb}${colon}${message}\n`)
 }
 
+/**
+ * Log a simple message with no timestamp.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logSimple = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { timestamp: false, ...opts })
+
+/**
+ * Log a debug message, including a DBG label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logDebug = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.debug, ...opts })
+
+/**
+ * Log an informational message, including an INF label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ */
 export const logInfo = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.info, ...opts })
+
+/**
+ * Log a warning message, including a WRN label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logWarn = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.warn, ...opts })
+
+/**
+ * Log an error message, including an ERR label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logError = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.error, ...opts })
+
+/**
+ * Log an add message, including an ADD label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logAdd = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.add, ...opts })
+
+/**
+ * Log a modify message, including a MOD label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logModify = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.modify, ...opts })
+
+/**
+ * Log a delete message, including a DEL label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logDelete = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.delete, ...opts })
+
+/**
+ * Log a ready message, including a RDY label.
+ * @param message - The message to log.
+ * @param opts - Additional options.
+ * @param opts.quiet - Whether to suppress the message.
+ * @param opts.namespace - The namespace to use for the message.
+ * @param opts.timestamp - Whether to include a timestamp.
+ * @return void
+ */
 export const logReady = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { label: LABELS.ready, ...opts })
