@@ -30,31 +30,13 @@ export class ConsoleManager {
   }
 
   clearLine() {
-    if (this.stdout.isTerminal()) {
-      const { columns } = Deno.consoleSize()
-      Deno.stdout.writeSync(encoder.encode(`\r`))
-      Deno.stdout.writeSync(encoder.encode(`${' '.repeat(columns)}`))
-      Deno.stdout.writeSync(encoder.encode(`\r`))
-    } else {
-      this.stdout.writeSync(encoder.encode('\x1b[2K'))
-    }
+    this.stdout.writeSync(encoder.encode('\x1b[2K'))
   }
 
   printNewline() {
     this.stdout.writeSync(encoder.encode('\n'))
   }
 }
-
-// export const moveToStartOfLine = () => Deno.stdout.writeSync(encoder.encode('\r'))
-// export const moveUpXLines = (x: number) => Deno.stdout.writeSync(encoder.encode(`\x1b[${x}A\r`))
-// export const moveDownXLines = (x: number) => Deno.stdout.writeSync(encoder.encode(`\x1b[${x}B\r`))
-// export const writeOver = (char: string, count: number) => {
-//   const { columns } = Deno.consoleSize()
-//   Deno.stdout.writeSync(encoder.encode(`\r`))
-//   Deno.stdout.writeSync(encoder.encode(`${' '.repeat(columns)}`))
-//   Deno.stdout.writeSync(encoder.encode(`\r`))
-// }
-// export const printNewline = () => console.log()
 
 export const getTimestamp = (): string => {
   const date = new Date()
