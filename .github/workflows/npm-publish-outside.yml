@@ -14,11 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: denoland/setup-deno@v2
         with:
-          node-version: 20
+          deno-version: v2.x
       - working-directory: projects/outside
-        run: npm ci
+        run: deno install
+      - working-directory: projects/outside
+        run: npm lint
       - working-directory: projects/outside
         run: npm test
 
@@ -27,12 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: denoland/setup-deno@v2
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
+          deno-version: v2.x
       - working-directory: projects/outside
-        run: npm ci
+        run: deno install
       - working-directory: projects/outside
         run: npm publish --access=public
         env:

@@ -1,7 +1,6 @@
 import fs from 'fs'
 import { join, relative, dirname } from 'path'
 import chokidar from 'chokidar'
-// import rimraf from 'rimraf'
 import { mkdirp } from 'mkdirp'
 import pico from 'picomatch'
 import { deleteAsync } from 'del'

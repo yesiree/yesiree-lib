@@ -7,7 +7,7 @@ import htmlFormatter from 'js-beautify'
 import chokidar from 'chokidar'
 import chalk from 'chalk'
 import fastGlob from 'fast-glob'
-import mime from 'mime-types'
+import mime from 'mime'
 import { logInfo } from '@yesiree/outside'
 import { createImageSizer } from './images.js'
 import {
