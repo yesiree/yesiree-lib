@@ -14,8 +14,16 @@ interface SpinnerSetMap {
   [key: string]: string[]
 }
 
+interface SpinnerGeneratorOptions { _?: never }
+interface SpinnerBeamGeneratorOptions extends SpinnerGeneratorOptions {
+  spaceWidth?: number;
+  spaceCharacter?: string;
+  beamWidthPct?: number;
+  beamCharacter?: string;
+}
+
 interface SpinnerGeneratorMap {
-  [key: string]: (options?: any) => string[]
+  [key: string]: (options?: SpinnerGeneratorOptions) => string[];
 }
 
 interface SpinnerConfig {
@@ -34,7 +42,12 @@ interface SpinnerConfig {
 interface SpinnerOptions extends SpinnerConfig { }
 
 export const SpinnerGenerators: SpinnerGeneratorMap = {
-  BEAM({ spaceWidth = 20, spaceCharacter = ' ', beamWidthPct = .2, beamCharacter = '=' } = {}): string[] {
+  BEAM({
+    spaceWidth = 20,
+    spaceCharacter = ' ',
+    beamWidthPct = .2,
+    beamCharacter = '='
+  }: SpinnerBeamGeneratorOptions = {}): string[] {
     const beamWidth = Math.max(1, Math.floor(spaceWidth * beamWidthPct))
     const frames: string[] = []//[`[${spaceCharacter.repeat(spaceWidth)}]`]
     const createFrame = (index: number) => {
@@ -50,7 +63,7 @@ export const SpinnerGenerators: SpinnerGeneratorMap = {
     for (let i = -beamWidth; i <= spaceWidth; i++) {
       createFrame(i)
     }
-    for(let i = spaceWidth - 1; i >= -beamWidth + 1; i--) {
+    for (let i = spaceWidth - 1; i >= -beamWidth + 1; i--) {
       createFrame(i)
     }
     return frames
