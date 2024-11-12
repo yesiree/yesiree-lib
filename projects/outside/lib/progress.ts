@@ -1,5 +1,6 @@
 import { brightWhite, brightBlue } from '@std/fmt/colors'
-import { identity, write, ConsoleManager, type ColorFn, type Writer } from './utils.ts'
+import { identity, type ColorFn } from './utils.ts'
+import { ConsoleWriter, type TextWriter } from './writer.ts'
 
 
 interface ProgressConfig {
@@ -13,7 +14,7 @@ interface ProgressConfig {
   emptyColor: ColorFn
   progressChar: string
   progressColor: ColorFn
-  stdout: Writer
+  writer?: TextWriter
 }
 
 interface ProgressOptions extends ProgressConfig { }
@@ -40,8 +41,7 @@ const config: ProgressConfig = {
   emptyChar: ' ',
   emptyColor: identity,
   progressChar: '=',
-  progressColor: brightBlue,
-  stdout: Deno.stdout,
+  progressColor: brightBlue
 }
 
 export const configureProgress = (options: Partial<ProgressConfig>): void => {
@@ -71,13 +71,14 @@ const printTaskProgress = (task: ProgressTask, opts?: Partial<ProgressOptions>):
   const empty = emptyColor(emptyChar.repeat(emptyCount))
   const percent = `  ${Math.floor(value * 100)}%`.slice(-4)
   const progressText = `${prefix}${percent} ${open}${progress}${empty}${close} ${label} `
-  const stdout = optsOrConfig.stdout ?? Deno.stdout
-  write(progressText, stdout)
+  const writer = optsOrConfig.writer
+  const cm = new ConsoleWriter(writer)
+  cm.write(progressText)
 }
 
 export const printProgress = (tasks: ProgressTask[], opts?: Partial<ProgressOptions>): TaskRunner[] => {
-  const stdout = getOptions(opts).stdout
-  const cm = new ConsoleManager(stdout)
+  const writer = opts?.writer ?? config?.writer
+  const cm = new ConsoleWriter(writer)
   return tasks
     .map((task, index, tasks) => {
       const taskLine = tasks.length - index

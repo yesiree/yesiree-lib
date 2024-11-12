@@ -1,5 +1,6 @@
 import { brightGreen, brightRed, gray, bold, brightYellow } from '@std/fmt/colors'
-import { ConsoleManager, write, type ColorFn, type Writer } from './utils.ts'
+import type { ColorFn } from './utils.ts'
+import { ConsoleWriter, type TextWriter } from './writer.ts'
 
 interface SpinnerTask {
   label: string
@@ -36,7 +37,7 @@ interface SpinnerConfig {
   successColor: ColorFn
   errorFrame: string
   errorColor: ColorFn
-  stdout: Writer
+  writer?: TextWriter
 }
 
 interface SpinnerOptions extends SpinnerConfig { }
@@ -99,7 +100,6 @@ const config: SpinnerConfig = {
   successColor: (msg) => brightGreen(bold(msg)),
   errorFrame: '✘',
   errorColor: (msg) => brightRed(bold(msg)),
-  stdout: Deno.stdout,
 }
 
 export const configureSpinner = (options: Partial<SpinnerConfig>): void => {
@@ -113,13 +113,14 @@ const printTaskSpinner = (runner: SpinnerRunner, opts?: Partial<SpinnerOptions>)
   const spinnerText = spinnerAlignment === 'left'
     ? `${spinnerColor(runner.currentFrame)} ${labelColor(runner.label)}`
     : `${labelColor(runner.label)} ${spinnerColor(runner.currentFrame)}`
-  const stdout = opts?.stdout ?? config.stdout ?? Deno.stdout
-  write(spinnerText, stdout)
+  const writer = opts?.writer ?? config.writer
+  const cm = new ConsoleWriter(writer)
+  cm.write(spinnerText)
 }
 
 const reprintTaskSpinner = (runner: SpinnerRunner, taskLine: number, opts?: Partial<SpinnerOptions>): void => {
-  const stdout = opts?.stdout ?? config.stdout ?? Deno.stdout
-  const cm = new ConsoleManager(stdout)
+  const writer = opts?.writer ?? config.writer
+  const cm = new ConsoleWriter(writer)
   cm.moveUpLines(taskLine)
   cm.clearLine()
   printTaskSpinner(runner, opts)
@@ -136,8 +137,8 @@ export const printSpinners = (tasks: SpinnerTask[], opts?: Partial<SpinnerOption
   const successColor = opts?.successColor ?? config.successColor
   const errorFrame = opts?.errorFrame ?? config.errorFrame
   const errorColor = opts?.errorColor ?? config.errorColor
-  const stdout = opts?.stdout ?? config.stdout ?? Deno.stdout
-  const cm = new ConsoleManager(stdout)
+  const writer = opts?.writer ?? config.writer
+  const cm = new ConsoleWriter(writer)
 
   tasks.map((task, index) => {
     const taskLine = tasks.length - index

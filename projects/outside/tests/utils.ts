@@ -1,39 +1,27 @@
-import type { Writer } from "../lib/utils.ts"
+import type { TextWriter } from "../lib/writer.ts"
 import { stripAnsiCode } from "@std/fmt/colors"
 
-interface TestWriter extends Writer {
+
+interface TestTextWriter extends TextWriter {
   clear(): void
   getLines(): string[]
   getOutput(): string
 }
 
-export const createTestWriter = (): TestWriter => {
-  let isClosed = false
-  let consoleOuptput = ''
-  return {
-    clear() {
-      consoleOuptput = ''
-    },
-    getLines(): string[] {
-      return stripAnsiCode(consoleOuptput).split('\n')
-    },
-    getOutput(): string {
-      return stripAnsiCode(consoleOuptput)
-    },
-    write(p: Uint8Array): Promise<number> {
-      if (isClosed) return Promise.reject(new Error("closed"))
-      return Promise.resolve(this.writeSync(p))
-    },
-    writeSync: (data: Uint8Array): number => {
-      if (isClosed) throw new Error("closed")
-      consoleOuptput += new TextDecoder().decode(data)
-      return data.length
-    },
-    close(): void {
-      isClosed = true
-    },
-    isTerminal() {
-      return true
-    },
+export const createTestWriter = (): TestTextWriter => {
+  let output = ''
+  const testTextWriter = (message: string) => {
+    output += message
   }
+  testTextWriter.clear = () => {
+    output = ''
+  }
+  testTextWriter.getLines = () => {
+    return stripAnsiCode(output).split('\n')
+  }
+  testTextWriter.getOutput = () => {
+    return stripAnsiCode(output)
+  }
+
+  return testTextWriter
 }

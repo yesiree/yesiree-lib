@@ -24,7 +24,7 @@ beforeEach(() => {
     namespace: '',
     quiet: false,
     timestamp: true,
-    stdout: writer,
+    writer,
   })
 })
 

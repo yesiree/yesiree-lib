@@ -7,9 +7,7 @@ const writer = createTestWriter()
 
 beforeEach(() => {
   writer.clear()
-  configureProgress({
-    stdout: writer,
-  })
+  configureProgress({ writer })
 })
 
 describe("printProgress", () => {

@@ -1,5 +1,6 @@
 import { bold, gray, cyan, brightBlue, brightWhite, brightRed, brightGreen, brightYellow, brightMagenta, rgb24 } from '@std/fmt/colors'
-import { getTimestamp, write, type ColorFn, type Writer } from './utils.ts'
+import { getTimestamp, type ColorFn } from './utils.ts'
+import { ConsoleWriter, type TextWriter } from './writer.ts'
 
 const boldBrightBlue = (message: string) => bold(brightBlue(message))
 const boldBrightWhite = (message: string) => bold(brightWhite(message))
@@ -22,7 +23,7 @@ interface LoggingConfig {
   namespace: string
   quiet: boolean
   timestamp: boolean
-  stdout: Writer
+  writer?: TextWriter
 }
 
 interface LoggingOptions extends LoggingConfig {
@@ -33,7 +34,6 @@ const config: LoggingConfig = {
   namespace: '',
   quiet: false,
   timestamp: true,
-  stdout: Deno.stdout,
 }
 
 export const configureLogging = (newConfig: Partial<LoggingConfig>): void => {
@@ -62,8 +62,9 @@ export const logMessage = (message: string, opts: Partial<LoggingOptions> = {}):
   const ns = namespace ? cyan(`[${namespace}]`) : ''
   const lb = label !== null ? label.color(`[${label.text}]`) : ''
   const colon = ts || ns || lb ? ': ' : ''
-  const stdout = opts.stdout ?? config.stdout ?? Deno.stdout
-  write(`${ts}${ns}${lb}${colon}${message}\n`, stdout)
+  const writer = opts.writer ?? config.writer
+  const cm = new ConsoleWriter(writer)
+  cm.write(`${ts}${ns}${lb}${colon}${message}\n`)
 }
 
 export const logSimple = (message: string, opts: Partial<LoggingOptions> = {}): void => logMessage(message, { timestamp: false, ...opts })

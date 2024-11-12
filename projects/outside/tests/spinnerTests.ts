@@ -7,9 +7,7 @@ const writer = createTestWriter()
 
 beforeEach(() => {
   writer.clear()
-  configureSpinner({
-    stdout: writer,
-  })
+  configureSpinner({ writer })
 })
 
 describe("printSpinner", () => {
