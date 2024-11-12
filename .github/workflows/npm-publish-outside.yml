@@ -20,9 +20,9 @@ jobs:
       - working-directory: projects/outside
         run: deno install
       - working-directory: projects/outside
-        run: npm lint
+        run: deno lint
       - working-directory: projects/outside
-        run: npm test
+        run: deno test
 
   publish:
     needs: build
