@@ -17,6 +17,6 @@ describe("printProgress", () => {
     const [runner] = printProgress([{ label: 'test', value: 0.5 }])
     runner.updateProgress(1)
     const lines = writer.getOutput()
-    assertEquals(lines, ' 50% [==========          ] test 100% [====================] test ')
+    assertEquals(lines, ' 50% [==========          ] test \n\r100% [====================] test \r')
   })
 })

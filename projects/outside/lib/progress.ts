@@ -1,5 +1,5 @@
 import { brightWhite, brightBlue } from '@std/fmt/colors'
-import { identity, write, moveUpXLines, moveDownXLines, printNewline, type ColorFn, type Writer } from './utils.ts'
+import { identity, write, ConsoleManager, type ColorFn, type Writer } from './utils.ts'
 
 
 interface ProgressConfig {
@@ -76,18 +76,20 @@ const printTaskProgress = (task: ProgressTask, opts?: Partial<ProgressOptions>):
 }
 
 export const printProgress = (tasks: ProgressTask[], opts?: Partial<ProgressOptions>): TaskRunner[] => {
+  const stdout = getOptions(opts).stdout
+  const cm = new ConsoleManager(stdout)
   return tasks
     .map((task, index, tasks) => {
       const taskLine = tasks.length - index
       printTaskProgress(task, opts)
-      printNewline()
+      cm.printNewline()
       return {
         task,
         updateProgress(value: number = 0) {
           task.value = value
-          moveUpXLines(taskLine)
+          cm.moveUpLines(taskLine)
           printTaskProgress(task, opts)
-          moveDownXLines(taskLine)
+          cm.moveDownLines(taskLine)
         }
       }
     })

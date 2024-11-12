@@ -1,5 +1,5 @@
 import { brightGreen, brightRed, gray, bold, brightYellow } from '@std/fmt/colors'
-import { clearLine, moveDownXLines, moveUpXLines, printNewline, write, type ColorFn, type Writer } from './utils.ts'
+import { ConsoleManager, write, type ColorFn, type Writer } from './utils.ts'
 
 interface SpinnerTask {
   label: string
@@ -118,10 +118,12 @@ const printTaskSpinner = (runner: SpinnerRunner, opts?: Partial<SpinnerOptions>)
 }
 
 const reprintTaskSpinner = (runner: SpinnerRunner, taskLine: number, opts?: Partial<SpinnerOptions>): void => {
-  moveUpXLines(taskLine)
-  clearLine()
+  const stdout = opts?.stdout ?? config.stdout ?? Deno.stdout
+  const cm = new ConsoleManager(stdout)
+  cm.moveUpLines(taskLine)
+  cm.clearLine()
   printTaskSpinner(runner, opts)
-  moveDownXLines(taskLine)
+  cm.moveDownLines(taskLine)
 }
 
 export const printSpinners = (tasks: SpinnerTask[], opts?: Partial<SpinnerOptions>): void => {
@@ -134,6 +136,8 @@ export const printSpinners = (tasks: SpinnerTask[], opts?: Partial<SpinnerOption
   const successColor = opts?.successColor ?? config.successColor
   const errorFrame = opts?.errorFrame ?? config.errorFrame
   const errorColor = opts?.errorColor ?? config.errorColor
+  const stdout = opts?.stdout ?? config.stdout ?? Deno.stdout
+  const cm = new ConsoleManager(stdout)
 
   tasks.map((task, index) => {
     const taskLine = tasks.length - index
@@ -145,7 +149,7 @@ export const printSpinners = (tasks: SpinnerTask[], opts?: Partial<SpinnerOption
     }
 
     printTaskSpinner(runner, opts)
-    printNewline()
+    cm.printNewline()
 
     const intervalId: number = setInterval(() => {
       value = value + 1 % config.spinnerFrames.length

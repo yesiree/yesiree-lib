@@ -17,6 +17,6 @@ describe("printSpinner", () => {
     const promise = new Promise<void>((res) => res())
     printSpinners([{ label: 'test', promise }])
     const lines = writer.getOutput()
-    assertEquals(lines, '| test')
+    assertEquals(lines, '| test\n')
   })
 })
