@@ -2,6 +2,7 @@ name: 'publish @yesiree/outside'
 run-name: publish @yesiree/outside — ${{ github.event.pull_request.title || github.event.head_commit.message }} (${{ github.actor }})
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: ['release']
     paths: ['projects/outside/**']
