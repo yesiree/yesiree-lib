@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from 'uuid'
+import { v4 } from '@std/uuid'
 
-export const createPid = (uuid = uuidv4()) => {
+export const createPid = (uuid = v4.generate()) => {
   let hex = uuid.replace(/-/g, '')
   if (hex.length % 2) hex = '0' + hex
   return BigInt('0x' + hex).toString(36).padStart(25, '0')

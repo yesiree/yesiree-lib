@@ -1,0 +1,41 @@
+name: 'publish @yesiree/pid'
+run-name: publish @yesiree/pid — ${{ github.event.pull_request.title || github.event.head_commit.message }} (${{ github.actor }})
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ['release']
+    paths: ['projects/pid/**']
+  push:
+    branches: ['release']
+    paths: ['projects/pid/**']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - working-directory: projects/pid
+        run: deno install
+      - working-directory: projects/pid
+        run: deno lint
+      - working-directory: projects/pid
+        run: deno test
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - working-directory: projects/pid
+        run: deno publish

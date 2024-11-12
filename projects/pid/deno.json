@@ -1,0 +1,19 @@
+{
+  "name": "@yesiree/pid",
+  "version": "0.0.1",
+  "description": "Create IDs as unique as a UUID but shorter.",
+  "author": "Trevor Reed",
+  "license": "MIT",
+  "exports": "./index.ts",
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "test": {
+    "include": [
+      "tests/**/*Tests.ts"
+    ]
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
