@@ -33,8 +33,4 @@ jobs:
         with:
           deno-version: v2.x
       - working-directory: projects/outside
-        run: deno install
-      - working-directory: projects/outside
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_GHA_TOKEN }}
+        run: deno publish

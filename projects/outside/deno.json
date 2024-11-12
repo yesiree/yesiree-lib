@@ -1,6 +1,6 @@
 {
   "name": "@yesiree/outside",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A tiny tool for CLI output.",
   "author": "Trevor Reed",
   "license": "MIT",
