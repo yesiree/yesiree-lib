@@ -15,7 +15,6 @@ import {
 configureLogging({
   quiet: true,
   timestamp: false,
-  stdout: Deno.stdout,
 });
 
 logMessage(`This message shouldn't show up.`);
@@ -24,7 +23,6 @@ configureLogging({
   quiet: false,
   timestamp: true,
   namespace: "ns",
-  stdout: Deno.stdout,
 });
 
 logMessage(`This message should show up.`);
@@ -33,7 +31,6 @@ configureLogging({
   quiet: false,
   timestamp: true,
   namespace: "",
-  stdout: Deno.stdout,
 });
 
 logMessage("this is a message");
