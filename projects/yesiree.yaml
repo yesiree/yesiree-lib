@@ -1,0 +1,7 @@
+config:
+  commands:
+    update-deno-json:
+      updates:
+        - template: rules.yaml
+          include: '*'
+          exclude: _

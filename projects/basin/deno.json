@@ -1,17 +1,14 @@
 {
-  "name": "@yesiree/pid",
-  "version": "0.0.1",
-  "description": "Create IDs as unique as a UUID but shorter.",
+  "name": "@yesiree/basin",
+  "version": "0.3.4",
+  "description": "An asynchronous, event-emitting, file watching, process channeling, static-site generating build tool.",
   "author": "Trevor Reed",
   "license": "MIT",
-  "exports": "./index.ts",
+  "exports": {
+    ".": "./lib/index.js"
+  },
   "tasks": {
     "dev": "deno run --watch main.ts"
-  },
-  "test": {
-    "include": [
-      "tests/**/*Tests.ts"
-    ]
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
